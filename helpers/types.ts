@@ -1,5 +1,3 @@
-import { BodyType, Color, ContentType, FuelType, InquiryType, SocialMediaType, TransmissionType } from "@prisma/client"
-
 interface user_registration {
     firstName: string
     middleName: string
@@ -105,54 +103,6 @@ interface view_brand_where_clause {
     AND?: Array<object>
 }
 
-interface view_vehicle_where_clause {
-    id?: bigint
-    brandId?: bigint
-    modelId?: string
-    modelName?: string
-    bodyType?: BodyType
-    price?: number
-    status?: boolean
-    softDelete: boolean
-    AND?: Array<object>
-}
-
-interface view_owned_vehicle_where_clause {
-    id?: bigint
-    vehicleId?: bigint
-    vehicle?: {
-        brandId?: bigint
-        bodyType?: BodyType
-    }
-    distanceDriven?: {
-        lte: number
-    }
-    RTOLocation?: string
-    ownerNumber?: number
-    yearOfRegistration?: number
-    expectedDateOfSell?: {
-        lte: Date
-    }
-    pricePaid: {
-        lte?: number
-        gte?: number
-    }
-    expectedPrice: {
-        lte?: number
-        gte?: number
-    }
-    dateOfSell?: Date
-    sellingDate?: Date
-    wantToSell?: boolean
-    sold?: boolean
-    status?: boolean
-    softDelete: boolean
-    color: Color
-    fuelType: FuelType
-    transmission: TransmissionType
-    AND?: Array<object>
-}
-
 interface update_customers {
     firstName: string
     middleName: string
@@ -162,34 +112,6 @@ interface update_customers {
     mobile: string
     userInfo: object
     roleId?: bigint | null
-}
-
-interface view_customer_where_clause {
-    isStaff?: boolean
-    isAdmin?: boolean
-    isSubAdmin?: boolean
-    status?: boolean
-    email?: string
-    emailVerified?: boolean
-    softDelete: boolean
-    AND?: Array<object>
-}
-
-interface view_inquiry_where_clause {
-    type?: InquiryType
-    status?: boolean
-    solved?: boolean
-    softDelete: boolean
-    AND?: Array<object>
-}
-
-interface view_marketing_where_clause {
-    socialMedia?: SocialMediaType,
-    content?: ContentType
-    featured?: boolean
-    status?: boolean
-    softDelete: boolean
-    AND?: Array<object>
 }
 
 export {
@@ -205,10 +127,5 @@ export {
     update_employees,
     user_registration,
     view_brand_where_clause,
-    view_vehicle_where_clause,
-    view_inquiry_where_clause,
-    view_employee_where_clause,
-    view_customer_where_clause,
-    view_marketing_where_clause,
-    view_owned_vehicle_where_clause
+    view_employee_where_clause
 };

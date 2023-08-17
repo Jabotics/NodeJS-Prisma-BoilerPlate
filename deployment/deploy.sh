@@ -7,12 +7,6 @@ echo ""
 npm run build
 echo "[+] Compilation complete"
 echo ""
-mkdir -p ./dist/uploads/360Close
-mkdir -p ./dist/uploads/360Open
-mkdir -p ./dist/uploads/General
-mkdir -p ./dist/uploads/Inspection
-mkdir -p ./dist/uploads/Others
-mkdir -p ./dist/uploads/Wheels
 mkdir -p ./dist/CSV
 echo "[+] local file directories created"
 echo ""
