@@ -1,0 +1,155 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["postgresqlExtensions"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  // relationMode = "prisma" # Restrict use of foreignkeys
+}
+
+enum VerificationTypeEnum {
+  FORGET_PASSWORD    @map("Forget Password")
+  GENERATE_PASSWORD  @map("Generate Password")
+  USER_REGISTRATION  @map("User Registration")
+  EMAIL_VERIFICATION @map("Email Verification")
+}
+
+// enum OrgTypeEnum {
+//   Automotive_and_Transportation     @map("Automotive & Transportation")
+//   Business_and_Consulting           @map("Business & Consulting")
+//   Computers_and_Engineering         @map("Computers & Engineering")
+//   Construction_and_Contracting      @map("Construction & Contracting")
+//   Entertainment_Arts_and_Music      @map("Entertainment, Arts & Music")
+//   FamilyServices_and_Counseling     @map("Family Services & Counseling")
+//   Finance_and_Insurance             @map("Finance & Insurance")
+//   Food_Beverage_and_Restaurant      @map("Food, Beverage & Restaurant")
+//   HealthCare_and_Pharmaceuticals    @map("Health Care & Pharmaceuticals")
+//   InformationTechnology_and_Science @map("Information Technology & Science")
+//   Education                         @map("Education")
+//   Legal_and_Politics                @map("Legal & Politics")
+//   Marketing_and_Communications      @map("Marketing & Communications")
+//   RealEstate                        @map("Real Estate")
+//   Retail_and_Sales                  @map("Retail & Sales")
+//   Travel_and_Hospitality            @map("Travel & Hospitality")
+//   Other                             @map("Other")
+// }
+
+// model Organiztion {
+//   id             BigInt           @id @default(autoincrement())
+//   type           OrgTypeEnum
+//   name           String           @db.VarChar(50)
+//   orgInfo        Json?            @db.Json()
+//   status         Boolean          @default(false) @db.Boolean()
+//   softDelete     Boolean          @default(false) @db.Boolean()
+//   createdDate    DateTime         @default(now()) @db.Timestamptz()
+//   // Permission  Permission[]
+//   // Role        Role[]
+//   // RolePermission RolePermission[]
+//   // User        User[]
+//   // Verification Verification[]
+//   // BlacklistToken BlacklistToken[]
+//   // IPBlockListDB  IPBlockListDB[]
+// }
+
+model Permission {
+  id             BigInt           @id @default(autoincrement())
+  // organiztionId  BigInt
+  // org            Organiztion      @relation(fields: [organiztionId], references: [id])
+  componentName  String           @unique @db.VarChar()
+  createdDate    DateTime         @default(now()) @db.Timestamptz()
+  RolePermission RolePermission[]
+}
+
+model Role {
+  id             BigInt           @id @default(autoincrement())
+  // organiztionId  BigInt
+  // org            Organiztion      @relation(fields: [organiztionId], references: [id])
+  role           String           @db.VarChar(50)
+  code           String           @db.VarChar(50)
+  status         Boolean          @default(true) @db.Boolean()
+  softDelete     Boolean          @default(false) @db.Boolean()
+  createdDate    DateTime         @default(now()) @db.Timestamptz()
+  User           User[]
+  RolePermission RolePermission[]
+}
+
+model RolePermission {
+  id           BigInt     @id @default(autoincrement())
+  // org           Organiztion @relation(fields: [organiztionId], references: [id])
+  // organiztionId BigInt
+  roleId       BigInt
+  role         Role       @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  permissionId BigInt
+  perm         Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
+  add          Boolean    @default(false) @db.Boolean()
+  update       Boolean    @default(false) @db.Boolean()
+  delete       Boolean    @default(false) @db.Boolean()
+  view         Boolean    @default(false) @db.Boolean()
+  createdDate  DateTime   @default(now()) @db.Timestamptz()
+}
+
+model User {
+  id             BigInt           @id @default(autoincrement())
+  // organiztionId  BigInt
+  // org            Organiztion      @relation(fields: [organiztionId], references: [id])
+  roleId         BigInt?
+  role           Role?            @relation(fields: [roleId], references: [id], onDelete: SetNull)
+  email          String           @unique @db.VarChar(50)
+  password       String?          @db.VarChar(500)
+  firstName      String?          @db.VarChar(25)
+  middleName     String?          @db.VarChar(25)
+  lastName       String?          @db.VarChar(25)
+  emailVerified  Boolean          @default(false) @db.Boolean()
+  isSuperAdmin   Boolean          @default(false) @db.Boolean()
+  isAdmin        Boolean          @default(false) @db.Boolean()
+  isSubAdmin     Boolean          @default(false) @db.Boolean()
+  isStaff        Boolean          @default(false) @db.Boolean()
+  status         Boolean          @default(false) @db.Boolean()
+  mobile         String?          @db.VarChar(15)
+  userInfo       Json?            @db.Json()
+  bankInfo       Json?            @db.Json()
+  softDelete     Boolean          @default(false) @db.Boolean()
+  createdDate    DateTime         @default(now()) @db.Timestamptz()
+  Verification   Verification[]
+  BlacklistToken BlacklistToken[]
+  IPBlockListDB  IPBlockListDB[]
+}
+
+model Verification {
+  id          BigInt               @id @default(autoincrement())
+  // organiztionId BigInt
+  // org           Organiztion          @relation(fields: [organiztionId], references: [id])
+  userId      BigInt
+  user        User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type        VerificationTypeEnum
+  token       String               @unique @db.VarChar(500)
+  softDelete  Boolean              @default(false) @db.Boolean()
+  createdDate DateTime             @default(now()) @db.Timestamptz()
+}
+
+model BlacklistToken {
+  id            BigInt      @id @default(autoincrement())
+  // organiztionId BigInt
+  // org           Organiztion @relation(fields: [organiztionId], references: [id])
+  userId        BigInt
+  user          User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  token         String      @unique @db.VarChar(500)
+  createdDate   DateTime    @default(now()) @db.Timestamptz()
+  expiryDate    DateTime    @db.Timestamptz()
+}
+
+model IPBlockListDB {
+  id            BigInt      @id @default(autoincrement())
+  // organiztionId BigInt
+  // org           Organiztion @relation(fields: [organiztionId], references: [id])
+  user          User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId        BigInt
+  IPAddress     String      @db.VarChar()
+  attempt       Int         @default(1) @db.Integer()
+  createdDate   DateTime    @default(now()) @db.Timestamptz()
+}

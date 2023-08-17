@@ -1,0 +1,1659 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "API documentation for Marnix",
+        "version": "1.0.0",
+        "title": "Marnix APIs",
+        "contact": {
+            "email": "debshubra.chakraborty@gmail.com"
+        },
+        "license": {
+            "name": "Swagger",
+            "url": "https://swagger.io//"
+        }
+    },
+    "schemes": ["http"],
+    "host": "192.168.29.253:8090",
+    "basePath": "/api",
+    "securityDefinitions": {
+        "Authorization": {
+            "type": "apiKey",
+            "name": "authorization",
+            "in": "header",
+            "description": "Authentication token"
+        }
+    },
+    "paths": {
+        "/user-registration": {
+            "post": {
+                "summary": "Organization and Admin User registration",
+                "description": "Register new organization alowng with admin user",
+                "produces": ["application/json"],
+                "consumes": ["application/json"],
+                "tags": ["Authentication"],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "Necessary data for registration",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "email": {
+                                    "type": "string"
+                                },
+                                "firstName": {
+                                    "type": "string"
+                                },
+                                "middleName": {
+                                    "type": "string"
+                                },
+                                "lastName": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "200-OK ~ Success",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/success"
+                        }
+                    },
+                    "400": {
+                        "description": "400-Bad Request ~ Bad request to API endpoint",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/error"
+                        }
+                    },
+                    "406": {
+                        "description": "406-Not Acceptable ~ Validation error",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/error"
+                        }
+                    }
+                }
+            }
+        },
+        "/login": {
+            "post": {
+                "summary": "Get JWT from backend",
+                "description": "Get authentication token for user",
+                "produces": ["application/json"],
+                "consumes": ["application/json"],
+                "tags": ["Authentication"],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "Necessary data to get authentication token",
+                        "required": true,
+                        "schema": {
+                            "type": "object",                            
+                            "properties": {
+                                "username": {
+                                    "type": "string"
+                                },
+                                "password": {
+                                    "type": "string"
+                                }
+                            }
+                        } 
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "200-OK ~ Success",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/success"
+                        }
+                    },
+                    "400": {
+                        "description": "400-Bad Request ~ Bad request to API endpoint",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/error"
+                        }
+                    },
+                    "403": {
+                        "description": "403-Forbidden ~ Permission Denied",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/error"
+                        }
+                    },
+                    "406": {
+                        "description": "406-Not Acceptable ~ Validation error",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/error"
+                        }
+                    }
+                }
+            }
+        },
+        "/generate-password": {
+            "post": {
+                "summary": "Generate password for admin user",
+                "description": "Verify email and generate password for admin user",
+                "produces": ["application/json"],
+                "consumes": ["application/json"],
+                "tags": ["Authentication"],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "Necessary data for generate password",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "email": {
+                                    "type": "string"
+                                },
+                                "token": {
+                                    "type": "string"
+                                },
+                                "password": {
+                                    "type": "string"
+                                },
+                                "confirmPassword": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "200-OK ~ Success",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/success"
+                        }
+                    },
+                    "400": {
+                        "description": "400-Bad Request ~ Bad request to API endpoint",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/error"
+                        }
+                    },
+                    "403": {
+                        "description": "403-Forbidden ~ Permission Denied",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/error"
+                        }
+                    },
+                    "406": {
+                        "description": "406-Not Acceptable ~ Validation error",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/error"
+                        }
+                    }
+                }
+            }
+        },
+        "/forget-password": {
+            "post": {
+                "summary": "Forget password request to backend",
+                "description": "Send forget password verification link in email",
+                "produces": ["application/json"],
+                "consumes": ["application/json"],
+                "tags": ["Authentication"],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "Necessary data for forget password request",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "email": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "200-OK ~ Success",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/success"
+                        }
+                    },
+                    "400": {
+                        "description": "400-Bad Request ~ Bad request to API endpoint",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/error"
+                        }
+                    },
+                    "403": {
+                        "description": "403-Forbidden ~ Permission Denied",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/error"
+                        }
+                    },
+                    "406": {
+                        "description": "406-Not Acceptable ~ Validation error",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/error"
+                        }
+                    }
+                }
+            }
+        },
+        "/reset-password": {
+            "post": {
+                "summary": "Reset password for users",
+                "description": "Reset password by providing token and new password",
+                "produces": ["application/json"],
+                "consumes": ["application/json"],
+                "tags": ["Authentication"],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "Necessary data for generating password",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "email": {
+                                    "type": "string"
+                                },
+                                "token": {
+                                    "type": "string"
+                                },
+                                "password": {
+                                    "type": "string"
+                                },
+                                "confirmPassword": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "200-OK ~ Success",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/success"
+                        }
+                    },
+                    "400": {
+                        "description": "400-Bad Request ~ Bad request to API endpoint",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/error"
+                        }
+                    },
+                    "403": {
+                        "description": "403-Forbidden ~ Permission Denied",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/error"
+                        }
+                    },
+                    "406": {
+                        "description": "406-Not Acceptable ~ Validation error",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/error"
+                        }
+                    }
+                }
+            }
+        },
+        "/reset-email": {
+            "post": {
+                "summary": "Reset email for users",
+                "description": "Reset email address by providing token and new password",
+                "produces": ["application/json"],
+                "consumes": ["application/json"],
+                "tags": ["Authentication"],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "Necessary data for generating password",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "email": {
+                                    "type": "string"
+                                },
+                                "token": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "200-OK ~ Success",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/success"
+                        }
+                    },
+                    "400": {
+                        "description": "400-Bad Request ~ Bad request to API endpoint",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/error"
+                        }
+                    },
+                    "403": {
+                        "description": "403-Forbidden ~ Permission Denied",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/error"
+                        }
+                    },
+                    "406": {
+                        "description": "406-Not Acceptable ~ Validation error",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/error"
+                        }
+                    }
+                }
+            }
+        },
+        "/employee-registration": {
+            "post": {
+                "summary": "Register employees",
+                "description": "Verify email, register and generate new password for user",
+                "produces": ["application/json"],
+                "consumes": ["application/json"],
+                "tags": ["Authentication"],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "Necessary data for user registration",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "email": {
+                                    "type": "string"
+                                },
+                                "password": {
+                                    "type": "string"
+                                },
+                                "confirmPassword": {
+                                    "type": "string"
+                                },
+                                "token": {
+                                    "type": "string"
+                                },
+                                "firstName": {
+                                    "type": "string"
+                                },
+                                "middleName": {
+                                    "type": "string"
+                                },
+                                "lastName": {
+                                    "type": "string"
+                                },
+                                "mobile": {
+                                    "type": "string"
+                                },
+                                "userInfo": {
+                                    "type": "object",
+                                    "properties": {
+                                        "country": {
+                                            "type": "string"
+                                        },
+                                        "timeZone": {
+                                            "type": "string"
+                                        },
+                                        "state": {
+                                            "type": "string"
+                                        },
+                                        "city": {
+                                            "type": "string"
+                                        },
+                                        "permanentAddress": {
+                                            "type": "string"
+                                        },
+                                        "gender": {
+                                            "type": "string"
+                                        },
+                                        "phoneCode": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "200-OK ~ Success",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/success"
+                        }
+                    },
+                    "400": {
+                        "description": "400-Bad Request ~ Bad request to API endpoint",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/error"
+                        }
+                    },
+                    "403": {
+                        "description": "403-Forbidden ~ Permission Denied",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/error"
+                        }
+                    },
+                    "406": {
+                        "description": "406-Not Acceptable ~ Validation error",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/error"
+                        }
+                    }
+                }
+            }
+        },
+        "/verify-session": {
+            "post": {
+                "summary": "Verify your session",
+                "description": "Check validity of authorization key",
+                "produces": ["application/json"],
+                "consumes": ["application/json"],
+                "tags": ["Authentication"],
+                "security": [
+                    {
+                        "Authorization": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "200-OK ~ Success",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/success"
+                        }
+                    },
+                    "400": {
+                        "description": "400-Bad Request ~ Bad request to API endpoint",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/error"
+                        }
+                    },
+                    "403": {
+                        "description": "403-Forbidden ~ Permission Denied",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/error"
+                        }
+                    },
+                    "406": {
+                        "description": "406-Not Acceptable ~ Validation error",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/error"
+                        }
+                    }
+                }
+            }
+        },
+        "/logout": {
+            "post": {
+                "summary": "Blacklist token",
+                "description": "Logout and blacklist current JWT",
+                "produces": ["application/json"],
+                "consumes": ["application/json"],
+                "tags": ["Authentication"],
+                "security": [
+                    {
+                        "Authorization": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "200-OK ~ Success",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/success"
+                        }
+                    },
+                    "400": {
+                        "description": "400-Bad Request ~ Bad request to API endpoint",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/error"
+                        }
+                    }
+                }
+            }
+        },
+        "/find-my-ip": {
+            "get": {
+                "summary": "View available clients of organization",
+                "description": "View available clients of the organization",
+                "produces": ["application/json"],
+                "consumes": ["application/json"],
+                "tags": ["Authentication"],
+                "security": [
+                    {
+                        "Authorization": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "200-OK ~ Success",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/success"
+                        }
+                    },
+                    "400": {
+                        "description": "400-Bad Request ~ Bad request to API endpoint",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/error"
+                        }
+                    },
+                    "406": {
+                        "description": "406-Not Acceptable ~ Validation error",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/error"
+                        }
+                    }
+                }
+            }
+        },
+
+        "/add-employees": {
+            "post": {
+                "summary": "Add employees to organization",
+                "description": "Create accounts for employees and send invitation link",
+                "produces": ["application/json"],
+                "consumes": ["application/json"],
+                "tags": ["Employee"],
+                "security": [
+                    {
+                        "Authorization": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "Necessary data for registration",
+                        "required": true,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "properties": {
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "roleId": {
+                                        "type": "number"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "200-OK ~ Success",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/success"
+                        }
+                    },
+                    "400": {
+                        "description": "400-Bad Request ~ Bad request to API endpoint",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/error"
+                        }
+                    },
+                    "406": {
+                        "description": "406-Not Acceptable ~ Validation error",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/error"
+                        }
+                    }
+                }
+            }
+        },
+        "/remove-employees": {
+            "post": {
+                "summary": "Remove employees from organization",
+                "description": "Delete accounts of employees from organization",
+                "produces": ["application/json"],
+                "consumes": ["application/json"],
+                "tags": ["Employee"],
+                "security": [
+                    {
+                        "Authorization": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "Necessary data for deletion of employee",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "EmployeeID": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "number"
+                                        }
+                                    }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "200-OK ~ Success",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/success"
+                        }
+                    },
+                    "400": {
+                        "description": "400-Bad Request ~ Bad request to API endpoint",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/error"
+                        }
+                    },
+                    "406": {
+                        "description": "406-Not Acceptable ~ Validation error",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/error"
+                        }
+                    }
+                }
+            }
+        },
+        "/view-employees": {
+            "get": {
+                "summary": "View employees of organization",
+                "description": "",
+                "produces": ["application/json"],
+                "consumes": ["application/json"],
+                "tags": ["Employee"],
+                "security": [
+                    {
+                        "Authorization": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "limit",
+                        "description": "Limit of data per API call",
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "offset",
+                        "description": "Offset of data on API call",
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "search",
+                        "description": "Search element of API call",
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "status",
+                        "description": "Status filter of API call",
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "email",
+                        "description": "email filter of API call",
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "emailVerified",
+                        "description": "emailVerified filter of API call",
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "isSubAdmin",
+                        "description": "isSubAdmin filter of API call",
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "isAdmin",
+                        "description": "isAdmin filter of API call",
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "orderBy",
+                        "description": "orderBy field of API call",
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "sort",
+                        "description": "Sort type of API call",
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "export",
+                        "description": "Export data as file",
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "200-OK ~ Success",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/success"
+                        }
+                    },
+                    "400": {
+                        "description": "400-Bad Request ~ Bad request to API endpoint",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/error"
+                        }
+                    },
+                    "406": {
+                        "description": "406-Not Acceptable ~ Validation error",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/error"
+                        }
+                    }
+                }
+            }
+        },
+        "/update-employee": {
+            "post": {
+                "summary": "Update employee's data of organization",
+                "description": "Update employee details of organization",
+                "produces": ["application/json"],
+                "consumes": ["application/json"],
+                "tags": ["Employee"],
+                "security": [
+                    {
+                        "Authorization": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "Necessary data to update user's data",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "id": {
+                                    "type": "number"
+                                },
+                                "firstName": {
+                                    "type": "string"
+                                },
+                                "middleName": {
+                                    "type": "string"
+                                },
+                                "lastName": {
+                                    "type": "string"
+                                },
+                                "role": {
+                                    "type": "number"
+                                },
+                                "isSubAdmin": {
+                                    "type": "boolean"
+                                },
+                                "status": {
+                                    "type": "boolean"
+                                },
+                                "mobile": {
+                                    "type": "string"
+                                },
+                                "userInfo": {
+                                    "type": "object",
+                                    "properties": {
+                                        "country": {
+                                            "type": "string"
+                                        },
+                                        "timeZone": {
+                                            "type": "string"
+                                        },
+                                        "state": {
+                                            "type": "string"
+                                        },
+                                        "city": {
+                                            "type": "string"
+                                        },
+                                        "permanentAddress": {
+                                            "type": "string"
+                                        },
+                                        "gender": {
+                                            "type": "string"
+                                        },
+                                        "phoneCode": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "200-OK ~ Success",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/success"
+                        }
+                    },
+                    "400": {
+                        "description": "400-Bad Request ~ Bad request to API endpoint",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/error"
+                        }
+                    },
+                    "406": {
+                        "description": "406-Not Acceptable ~ Validation error",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/error"
+                        }
+                    }
+                }
+            }
+        },
+
+        "/add-role": {
+            "post": {
+                "summary": "Add user types to organization",
+                "description": "Create user types for employees",
+                "produces": ["application/json"],
+                "consumes": ["application/json"],
+                "tags": ["User Roles"],
+                "security": [
+                    {
+                        "Authorization": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "Necessary data to add user types",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "role": {
+                                    "type": "string"
+                                },
+                                "code": {
+                                    "type": "string"
+                                },
+                                "permissions": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "componentName": {
+                                                "type": "string"
+                                            },
+                                            "add": {
+                                                "type": "boolean"
+                                            },
+                                            "update": {
+                                                "type": "boolean"
+                                            },
+                                            "delete": {
+                                                "type": "boolean"
+                                            },
+                                            "view": {
+                                                "type": "boolean"
+                                            }
+                                        }
+                                    }        
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "200-OK ~ Success",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/success"
+                        }
+                    },
+                    "400": {
+                        "description": "400-Bad Request ~ Bad request to API endpoint",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/error"
+                        }
+                    },
+                    "406": {
+                        "description": "406-Not Acceptable ~ Validation error",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/error"
+                        }
+                    }
+                }
+            }
+        },
+        "/remove-roles": {
+            "post": {
+                "summary": "Remove user type from organization",
+                "description": "Remove user type of employees from organization",
+                "produces": ["application/json"],
+                "consumes": ["application/json"],
+                "tags": ["User Roles"],
+                "security": [
+                    {
+                        "Authorization": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "Necessary data for registration",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "roleID": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "number"
+                                        }
+                                    }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "200-OK ~ Success",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/success"
+                        }
+                    },
+                    "400": {
+                        "description": "400-Bad Request ~ Bad request to API endpoint",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/error"
+                        }
+                    },
+                    "406": {
+                        "description": "406-Not Acceptable ~ Validation error",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/error"
+                        }
+                    }
+                }
+            }
+        },
+        "/view-roles": {
+            "get": {
+                "summary": "View user types of organization",
+                "description": "View available user types in organization",
+                "produces": ["application/json"],
+                "consumes": ["application/json"],
+                "tags": ["User Roles"],
+                "security": [
+                    {
+                        "Authorization": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "limit",
+                        "description": "Limit of data per API call",
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "offset",
+                        "description": "Offset of data on API call",
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "search",
+                        "description": "Search element of API call",
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "status",
+                        "description": "Search element of API call",
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "export",
+                        "description": "Export data as file",
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "200-OK ~ Success",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/success"
+                        }
+                    },
+                    "400": {
+                        "description": "400-Bad Request ~ Bad request to API endpoint",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/error"
+                        }
+                    },
+                    "406": {
+                        "description": "406-Not Acceptable ~ Validation error",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/error"
+                        }
+                    }
+                }
+            }
+        },
+        "/update-role": {
+            "post": {
+                "summary": "Update user role of organization",
+                "description": "Update user role and assign permission",
+                "produces": ["application/json"],
+                "consumes": ["application/json"],
+                "tags": ["User Roles"],
+                "security": [
+                    {
+                        "Authorization": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "Necessary data for registration",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "id": {
+                                    "type": "number"
+                                },
+                                "role": {
+                                    "type": "string"
+                                },
+                                "code": {
+                                    "type": "string"
+                                },
+                                "status": {
+                                    "type": "boolean"
+                                },
+                                "permissions": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "componentName": {
+                                                "type": "string"
+                                            },
+                                            "add": {
+                                                "type": "boolean"
+                                            },
+                                            "update": {
+                                                "type": "boolean"
+                                            },
+                                            "delete": {
+                                                "type": "boolean"
+                                            },
+                                            "view": {
+                                                "type": "boolean"
+                                            }
+                                        }
+                                    }        
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "200-OK ~ Success",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/success"
+                        }
+                    },
+                    "400": {
+                        "description": "400-Bad Request ~ Bad request to API endpoint",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/error"
+                        }
+                    },
+                    "406": {
+                        "description": "406-Not Acceptable ~ Validation error",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/error"
+                        }
+                    }
+                }
+            }
+        },
+
+        "/add-permission-component": {
+            "post": {
+                "summary": "Add permission components SaaS platform",
+                "description": "Add permission components to be accessed by other organizations",
+                "produces": ["application/json"],
+                "consumes": ["application/json"],
+                "tags": ["Permission Component"],
+                "security": [
+                    {
+                        "Authorization": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "Necessary data to add permission component",
+                        "required": true,
+                        "schema": {
+                            "properties": {
+                                "componentName": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "200-OK ~ Success",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/success"
+                        }
+                    },
+                    "400": {
+                        "description": "400-Bad Request ~ Bad request to API endpoint",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/error"
+                        }
+                    },
+                    "406": {
+                        "description": "406-Not Acceptable ~ Validation error",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/error"
+                        }
+                    }
+                }
+            }
+        },
+        "/view-permission-components": {
+            "get": {
+                "summary": "View available permission components",
+                "description": "View available permission components to assign on user types",
+                "produces": ["application/json"],
+                "consumes": ["application/json"],
+                "tags": ["Permission Component"],
+                "security": [
+                    {
+                        "Authorization": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "200-OK ~ Success",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/success"
+                        }
+                    },
+                    "400": {
+                        "description": "400-Bad Request ~ Bad request to API endpoint",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/error"
+                        }
+                    },
+                    "406": {
+                        "description": "406-Not Acceptable ~ Validation error",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/error"
+                        }
+                    }
+                }
+            }
+        },
+        "/remove-permission-component": {
+            "post": {
+                "summary": "Remove permission component",
+                "description": "Remove permission component SaaS platform",
+                "produces": ["application/json"],
+                "consumes": ["application/json"],
+                "tags": ["Permission Component"],
+                "security": [
+                    {
+                        "Authorization": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "Necessary data to delete permissionComponent",
+                        "required": true,
+                        "schema": {
+                            "properties": {
+                                "id": {
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "200-OK ~ Success",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/success"
+                        }
+                    },
+                    "400": {
+                        "description": "400-Bad Request ~ Bad request to API endpoint",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/error"
+                        }
+                    },
+                    "406": {
+                        "description": "406-Not Acceptable ~ Validation error",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/error"
+                        }
+                    }
+                }
+            }
+        },
+        "/update-permission-component": {
+            "post": {
+                "summary": "Update permission component",
+                "description": "Update permission component metadata SaaS platform",
+                "produces": ["application/json"],
+                "consumes": ["application/json"],
+                "tags": ["Permission Component"],
+                "security": [
+                    {
+                        "Authorization": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "Necessary data for registration",
+                        "required": true,
+                        "schema": {
+                            "properties": {
+                                "id": {
+                                    "type": "number"
+                                },
+                                "componentName": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "200-OK ~ Success",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/success"
+                        }
+                    },
+                    "400": {
+                        "description": "400-Bad Request ~ Bad request to API endpoint",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/error"
+                        }
+                    },
+                    "406": {
+                        "description": "406-Not Acceptable ~ Validation error",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/error"
+                        }
+                    }
+                }
+            }
+        },
+
+        "/update-self": {
+            "post": {
+                "summary": "Update self data",
+                "description": "Update employee details of self",
+                "produces": ["application/json"],
+                "consumes": ["application/json"],
+                "tags": ["Settings"],
+                "security": [
+                    {
+                        "Authorization": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "Necessary data to update user's data",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "firstName": {
+                                    "type": "string"
+                                },
+                                "middleName": {
+                                    "type": "string"
+                                },
+                                "lastName": {
+                                    "type": "string"
+                                },
+                                "mobile": {
+                                    "type": "string"
+                                },
+                                "userInfo": {
+                                    "type": "object",
+                                    "properties": {
+                                        "country": {
+                                            "type": "string"
+                                        },
+                                        "timeZone": {
+                                            "type": "string"
+                                        },
+                                        "state": {
+                                            "type": "string"
+                                        },
+                                        "city": {
+                                            "type": "string"
+                                        },
+                                        "permanentAddress": {
+                                            "type": "string"
+                                        },
+                                        "gender": {
+                                            "type": "string"
+                                        },
+                                        "phoneCode": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "bankInfo": {
+                                    "type": "object",
+                                    "properties": {
+                                        "employeeID": {
+                                            "type": "string"
+                                        },
+                                        "bankName": {
+                                            "type": "string"
+                                        },
+                                        "acNumber": {
+                                            "type": "number"
+                                        },
+                                        "ifscCode": {
+                                            "type": "string"
+                                        },
+                                        "pfNo": {
+                                            "type": "string"
+                                        },
+                                        "pfUAN": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "200-OK ~ Success",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/success"
+                        }
+                    },
+                    "400": {
+                        "description": "400-Bad Request ~ Bad request to API endpoint",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/error"
+                        }
+                    },
+                    "406": {
+                        "description": "406-Not Acceptable ~ Validation error",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/error"
+                        }
+                    }
+                }
+            }
+        },
+        "/update-password": {
+            "post": {
+                "summary": "Update user password",
+                "description": "Update user password",
+                "produces": ["application/json"],
+                "consumes": ["application/json"],
+                "tags": ["Settings"],
+                "security": [
+                    {
+                        "Authorization": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "Necessary data to update user's data",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "oldPassword": {
+                                    "type": "string"
+                                },
+                                "password": {
+                                    "type": "string"
+                                },
+                                "confirmPassword": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "200-OK ~ Success",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/success"
+                        }
+                    },
+                    "400": {
+                        "description": "400-Bad Request ~ Bad request to API endpoint",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/error"
+                        }
+                    },
+                    "406": {
+                        "description": "406-Not Acceptable ~ Validation error",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/error"
+                        }
+                    }
+                }
+            }
+        },
+        "/update-email": {
+            "post": {
+                "summary": "Update user email",
+                "description": "Update user email",
+                "produces": ["application/json"],
+                "consumes": ["application/json"],
+                "tags": ["Settings"],
+                "security": [
+                    {
+                        "Authorization": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "Necessary data to update user's data",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "email": {
+                                    "type": "string"
+                                },
+                                "password": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "200-OK ~ Success",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/success"
+                        }
+                    },
+                    "400": {
+                        "description": "400-Bad Request ~ Bad request to API endpoint",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/error"
+                        }
+                    },
+                    "406": {
+                        "description": "406-Not Acceptable ~ Validation error",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/error"
+                        }
+                    }
+                }
+            }
+        }
+    }, 
+    "definitions": {
+        "success": {
+            "type": "object",
+            "properties": {
+                "status": {
+                    "type": "boolean"
+                },
+                "message": {
+                    "type": "string"
+                },
+                "data": {
+                    "type": "object"
+                }
+            }
+        },
+        "error": {
+            "type": "object",
+            "properties": {
+                "status": {
+                    "type": "boolean"
+                },
+                "message": {
+                    "type": "string"
+                },
+                "errors": {
+                    "type": "object"
+                }
+            }
+        }
+    }
+}

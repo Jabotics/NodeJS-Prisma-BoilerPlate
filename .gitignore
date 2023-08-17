@@ -1,0 +1,14 @@
+# Keep environment variables out of version control
+node_modules
+
+# Keep compiled files out of version control
+dist
+
+# Keep uploaded files out of version control
+uploads/Wheels/*
+uploads/Others/*
+uploads/General/*
+uploads/360Open/*
+uploads/360Close/*
+uploads/Inspection/*
+CSV

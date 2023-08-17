@@ -1,0 +1,13 @@
+-- CreateTable
+CREATE TABLE "IPBlockListDB" (
+    "id" BIGSERIAL NOT NULL,
+    "userId" BIGINT NOT NULL,
+    "IPAddress" VARCHAR NOT NULL,
+    "attempt" INTEGER NOT NULL DEFAULT 1,
+    "createdDate" TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "IPBlockListDB_pkey" PRIMARY KEY ("id")
+);
+
+-- AddForeignKey
+ALTER TABLE "IPBlockListDB" ADD CONSTRAINT "IPBlockListDB_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
