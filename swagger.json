@@ -1,9 +1,9 @@
 {
     "swagger": "2.0",
     "info": {
-        "description": "API documentation for Marnix",
+        "description": "API documentation for Boiler Plate",
         "version": "1.0.0",
-        "title": "Marnix APIs",
+        "title": "Boiler Plate APIs",
         "contact": {
             "email": "debshubra.chakraborty@gmail.com"
         },
@@ -13,7 +13,7 @@
         }
     },
     "schemes": ["http"],
-    "host": "192.168.29.253:8090",
+    "host": "127.0.0.1:6969",
     "basePath": "/api",
     "securityDefinitions": {
         "Authorization": {
